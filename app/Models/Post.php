@@ -2,38 +2,51 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Post 
+class Post extends Model
 {
-    private static $blog_posts = [
-        [
-            "title" => "Sukses Hidup Dengan Berhemat",
-            "slug" => "sukses-hidup-dengan-berhemat",
-            "author" => "Loki",
-            "body" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores totam officia sequi aperiam provident hic id voluptatibus? Ratione corrupti animi assumenda quos sunt rem natus dolorum labore, accusamus numquam at earum fuga quaerat esse dolorem! A totam eius quasi. Vero facilis culpa ea officia magnam est quo? Odio praesentium blanditiis ipsam accusamus. Quidem modi temporibus nihil. Officia praesentium, labore veritatis possimus eveniet expedita ea sapiente quidem explicabo assumenda reprehenderit dolorum sed blanditiis alias eaque voluptatibus quae."
-        ],
-        [
-            "title" => "Motif Penipuan Melalui Badan Amal",
-            "slug" => "motif-penipuan-melalui-badan-amal",
-            "author" => "Lucky",
-            "body" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores totam officia sequi aperiam provident hic id voluptatibus? Ratione corrupti animi assumenda quos sunt rem natus dolorum labore, accusamus numquam at earum fuga quaerat esse dolorem! A totam eius quasi. Vero facilis culpa ea officia magnam est quo? Odio praesentium blanditiis ipsam accusamus. Quidem modi temporibus nihil. Officia praesentium, labore veritatis possimus eveniet expedita ea sapiente quidem explicabo assumenda reprehenderit dolorum sed blanditiis alias eaque voluptatibus quae."
-        ]
-    ];
+    use HasFactory;
 
+    protected $guarded = ['id'];
+    protected $with = ['category', 'authr'];
 
-    public static function all() {
-        return collect(self::$blog_posts);
+    public function scopeFilter($query, array $filters){
+
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return $query
+            ->where('title', 'like', '%'.$search.'%')
+            ->orWhere('excerpt', 'like', '%'.$search.'%');
+        });
+        // search by category malah search all tapi judul bener
+        $query->when($filters['category'] ?? false, function($query, $category){
+            return $query->whereHas('category', function($query) use ($category){
+                $query->where('slug', $category);
+            });            
+        });
+        // search by author malah search all
+        $query->when($filters['author'] ?? false, function($query, $author){
+            return $query->whereHas('authr', function($query) use ($author){
+                $query->where('username', $author);
+            });            
+        });
+        // $query->when($filters['author'] ?? false, fn($query, $author) => $query->whereHas(
+        //     'auth', fn($query)=> $query->where('username', 'author')
+        //     )
+        // );
     }
 
-    public static function find($slug) {
-        $posts = static::all();
-        // $post = [];
-        // foreach($posts as $p){
-        //     if($p["slug"] === $slug){
-        //         $post = $p;
-        //     }
-        // }
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 
-        return $posts->firstWhere('slug',$slug);
+    public function authr(){
+    return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }
