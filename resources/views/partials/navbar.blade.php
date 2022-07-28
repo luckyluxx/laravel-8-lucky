@@ -18,9 +18,6 @@
           <li class="nav-item">
             <a class="nav-link {{ Request::is('categories') ? 'active' : '' }}" href="/categories">Categories</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="/dashboard">Dashboard</a>
-          </li>
         </ul>
 
       <ul class="navbar-nav ms-auto">
@@ -32,7 +29,7 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
-              <a class="dropdown-item" href="#"> && My Dashboard</a>
+              <a href="/dashboard" class="dropdown-item" href="#"> && My Dashboard</a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>

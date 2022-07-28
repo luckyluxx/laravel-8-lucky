@@ -9,9 +9,14 @@
                 <h5>Author : <a href="/posts?author={{ $post->authr->username }}" class="link-dark text-decoration-none">{{ $post->authr->name }}</a></h5>
                 <p>Posted in <b><a href="/posts?category={{ $post->category->slug }}" class="link-dark text-decoration-none">{{ $post->category->name }}</a></b></p>
                 <br>
-                <div class=""  style="background-color:rgb(205, 205, 205); height:300px;">
-                    {{-- <img src="https://source.unsplash.com/900x300?{{ $post->category->name }}" alt="{{ $post->category->name }}" class="image-fluid"> --}}
-                </div>
+                
+                @if ($post->image)
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}" class="img-fluid">
+                @else
+                    <div class=""  style="background-color:rgb(205, 205, 205); height:300px;">
+                        <img src="https://source.unsplash.com/900x300?{{ $post->category->name }}" alt="{{ $post->category->name }}" class="image-fluid">
+                    </div>
+                @endif
 
                 <article class="my-3 ">
                     {!! $post->body !!}

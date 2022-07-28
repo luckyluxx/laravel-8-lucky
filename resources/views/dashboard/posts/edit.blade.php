@@ -2,15 +2,16 @@
 @section('content')
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Create New Posts</h1>
+    <h1 class="h2">Edit Posts</h1>
 </div>
 
 <div class="col-lg-10">
-    <form action="/dashboard/posts" method="POST" class="mb-5" enctype="multipart/form-data">
+    <form action="/dashboard/posts/{{ $post->slug }}" method="POST" class="mb-5" enctype="multipart/form-data">
+        @method('put')
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror" required autofocus value="{{ old('title') }}">
+            <input type="text" id="title" name="title" class="form-control @error('title') is-invalid @enderror" required autofocus value="{{ old('title', $post->title) }}">
             @error('title')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -19,7 +20,7 @@
         </div>
         <div class="mb-3">
             <label for="slug" class="form-label">Slug</label>
-            <input type="text" id="slug" name="slug" class="form-control @error('slug') is-invalid @enderror" required value="{{ old('slug') }}">
+            <input type="text" id="slug" name="slug" class="form-control @error('slug') is-invalid @enderror" required value="{{ old('slug', $post->slug) }}">
             <p class="text-muted"> we'd recommend that slug and title at the same phrase</p>
             @error('slug')
                 <div class="invalid-feedback">
@@ -32,7 +33,7 @@
             <select class="form-select" name="category_id">
 
                 @foreach ($categories as $category)
-                    @if (old('category_id') == $category->id)
+                    @if (old('category_id', $post->category_id) == $category->id)
                         <option value="{{ $category->id }}" selected> {{ $category->name }}</option>
                     @else
                         <option value="{{ $category->id }}"> {{ $category->name }}</option>
@@ -45,7 +46,12 @@
 
         <div class="mb-3">
             <label for="image" class="form-label">Post Image</label>
-            <img class="img-preview img-fluid mb-3 col-sm-6">
+            <input type="hidden" name="oldImage" value="{{ $post->image }}">
+            @if ($post->image)
+                <img src="{{ asset('storage/' . $post->image) }}" class="img-preview img-fluid mb-3 col-sm-6 d-block">
+            @else
+                <img class="img-preview img-fluid mb-3 col-sm-6">
+            @endif
             <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror" onchange="previewImage()">
             @error('image')
                 <div class="invalid-feedback">
@@ -59,11 +65,11 @@
             @error('body')
                 <p class="text-danger">{{ $message }}</p>
             @enderror
-            <input type="hidden" id="body" name="body" value="{{ old('body') }}">
+            <input type="hidden" id="body" name="body" value="{{ old('body', $post->body) }}">
             <trix-editor input="body"></trix-editor>
         </div>
 
-        <button type="submit" class="btn btn-primary">Create Post</button>
+        <button type="submit" class="btn btn-primary">Update Post</button>
     </form>
 </div>
 
@@ -85,7 +91,6 @@
         e.preventDefault();
     });
 </script>
-
 {{-- preview gambar --}}
 <script>
     function previewImage() {

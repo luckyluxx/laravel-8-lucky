@@ -10,24 +10,32 @@
                         <span data-feather="arrow-left-circle"></span>
                         Back to all my posts
                     </a>
-                    <a href="" class="btn btn-warning mx-2">
+                    <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-warning mx-2">
                         <span data-feather="edit"></span>
                         Edit 
                     </a>
-                    <a href="" class="btn btn-danger mx-2">
-                        <span data-feather="trash"></span>
-                        Delete
-                    </a>
+                    <form action="/dashboard/posts/{{ $post->slug }}" method="POST" class="d-inline">
+                        @method('delete')
+                        @csrf
+
+                        <button class=" btn btn-danger" onclick="return confirm('Are you sure?')">
+                            <span data-feather="trash"></span> Delete
+                        </button>
+                      </form>
 
                 </div>
-                <div class=" mt-3"  style="background-color:rgb(205, 205, 205); height:300px;">
-                    {{-- <img src="https://source.unsplash.com/900x300?{{ $post->category->name }}" alt="{{ $post->category->name }}" class="image-fluid"> --}}
-                </div>
+
+                @if ($post->image)
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}" class="img-fluid mt-3">
+                @else
+                    <div class=" mt-3"  style="background-color:rgb(205, 205, 205); height:300px;">
+                        <img src="https://source.unsplash.com/900x300?{{ $post->category->name }}" alt="{{ $post->category->name }}" class="img-fluid mt-3">
+                    </div>
+                @endif
 
                 <article class="my-3 ">
                     {!! $post->body !!}
                 </article>
-                <a href="/posts" class="link-secondary">Back to posts</a>
             </div>
         </div>
     </div>

@@ -10,6 +10,14 @@
     {{-- cssnya dashboard --}}
     <link rel="stylesheet" href="{{ url('css/dashboard.css') }}">
 
+    {{-- trix editor --}}
+    <link rel="stylesheet" href="{{ url('css/trix.css') }}">
+
+    <style>
+        trix-toolbar [data-trix-button-group="file-tools"] {
+            display: none;
+        }
+    </style>
     <title>WPU Blog | Dashboard</title>
 </head>
 <body>
@@ -34,5 +42,8 @@
     <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
     {{-- jsnya dashboard --}}
     <script src="{{ url('js/dashboard.js') }}"></script>
+    {{-- trix js --}}
+    <script src="{{ url('js/trix.js') }}"></script>
+
 </body>
 </html>
