@@ -10,6 +10,7 @@
 
     {{-- stylekuh --}}
     <link rel="stylesheet" href="{{ url('css/stylekuh.css') }}">
+    <script src="https://kit.fontawesome.com/37c7b28cb3.js" crossorigin="anonymous"></script>
     <title>Lucky Personal Site | {{ $title }}</title>
 </head>
 <body>

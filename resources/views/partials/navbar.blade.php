@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="/">SITE</a>
+      <a class="navbar-brand" href="/">
+        <img src="/iconsite.png" alt="icon" style="max-height:48px;">
+        | DairyofLuck
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -29,15 +32,14 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li>
-              <a href="/dashboard" class="dropdown-item" href="#"> && My Dashboard</a>
+              <a href="/dashboard" class="dropdown-item" href="#"><i class="fa-solid fa-table-columns"></i> My Dashboard</a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
               <form action="/logout" method="POST">
                 @csrf
                 <button type="submit" class="dropdown-item">
-                  <<
-                  Logout
+                  <i class="fa-solid fa-right-from-bracket"></i> Logout 
                 </button>
               </form>
             </li>
@@ -47,7 +49,8 @@
         @else
         <li class="nav-item">
           <a href="/login" class="nav-link {{ ($active === "login") ? 'active' : '' }}">
-            >> Login
+            <i class="fa-solid fa-right-to-bracket"></i>
+            Login
           </a>
         </li>
 

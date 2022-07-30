@@ -12,7 +12,7 @@
         <a href="/posts?category={{ $category->slug }}">
         <div class="card bg-dark text-white">
           <div class="cardheader"  style="overflow:hidden; background-color:rgb(205, 205, 205); height:450px;">
-            {{-- <img src="https://source.unsplash.com/450x600?{{ $category->name }}" class="card-img-top" alt="{{ $category->name }}"> --}}
+            <img src="https://source.unsplash.com/450x600?{{ $category->name }}" class="card-img-top" alt="{{ $category->name }}">
           </div>
           <div class="card-img-overlay d-flex align-items-center p-0">
             <h5 class="card-title text-center flex-fill py-1" style="background-color: rgba(0, 0, 0, 0.5)">
